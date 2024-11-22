@@ -66,9 +66,35 @@ def main():
     </html>
     ''', otp=otp, current_time=current_time, remaining=remaining)
 
+
 @app.route('/health')
 def health():
     return {"status": "healthy", "timestamp": str(datetime.now())}
+
+@app.route('/api/otp')
+def get_otp():
+    """JSON endpoint for OTP"""
+    otp = generate_otp()
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    remaining = 30 - (int(time.time()) % 30)
+    
+    return jsonify({
+        'otp': otp,
+        'timestamp': current_time,
+        'refresh_in': remaining,
+        'status': 'success'
+    })
+
+@app.route('/health')
+def health():
+    return jsonify({
+        'status': 'healthy',
+        'timestamp': str(datetime.now())
+    })
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 8080))
+    app.run(host='0.0.0.0', port=port)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
