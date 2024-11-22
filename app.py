@@ -67,9 +67,6 @@ def main():
     ''', otp=otp, current_time=current_time, remaining=remaining)
 
 
-@app.route('/health')
-def health():
-    return {"status": "healthy", "timestamp": str(datetime.now())}
 
 @app.route('/api/otp')
 def get_otp():
@@ -91,10 +88,6 @@ def health():
         'status': 'healthy',
         'timestamp': str(datetime.now())
     })
-
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8080))
-    app.run(host='0.0.0.0', port=port)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
